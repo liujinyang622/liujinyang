@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    <title>返校绝望高速路 · 可选段数·随机事件版</title>
+    <style>
+        /* ===== 小清新浅蓝粉白 - 响应式设计 ===== */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(145deg, #b8e1fc 0%, #d4f0ff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px;
+            margin: 0;
+        }
+        .game-container {
+            width: 100%;
+            max-width: 600px;
+            background: #fff9f7;
+            border-radius: 36px 36px 24px 24px;
+            box-shadow: 0 12px 28px rgba(241, 154, 186, 0.25);
+            padding: 18px 16px;
+            border: 2px solid #ffc2c7;
+            transition: all 0.2s;
+        }
+        h1 {
+            margin: 0 0 12px 0;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #3c6e71;
+            text-shadow: 2px 2px 0 #fcd5ce;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        h1 span {
+            font-size: 0.9rem !important;
+            padding: 6px 14px !important;
+        }
+        /* 初始喝水面板 - 新增下拉菜单行 */
+        .initial-drink-panel {
+            background: #ffdbe0;
+            border-radius: 40px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            border: 4px solid #ffa5ab;
+            box-shadow: 0 0 16px #ffc2c7;
+        }
+        .region-selector-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .region-selector-row label {
+            font-weight: 600;
+            color: #4d6a6a;
+            font-size: 1rem;
+        }
+        #totalRegionsSelect {
+            background: #fff5f5;
+            border: 2px solid #ffaeae;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d4a4a;
+            outline: none;
+            cursor: pointer;
+        }
+        .drink-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .drink-option-btn {
+            background: #ffb3c6;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #2d4a4a;
+            border-bottom: 4px solid #e68a8f;
+            cursor: pointer;
+            transition: 0.07s;
+            flex: 0 1 auto;
+        }
+        .status-panel {
+            background: #cfe2ff;
+            border-radius: 28px;
+            padding: 16px 14px;
+            color: #284b5c;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            border: 3px solid #aad0f5;
+            box-shadow: inset 0 -4px 0 #8fb9d4;
+            margin-bottom: 8px;
+        }
+        .stat-item {
+            background: #f0faff;
+            padding: 10px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #b0d4ec;
+            box-shadow: inset 0 2px 3px rgba(60, 110, 113, 0.1);
+        }
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #5f7e8c;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #1f5068;
+            word-break: break-word;
+        }
+        .seat-danger {
+            color: #d14b4b !important;
+            text-shadow: 0 0 6px #ffb3b3;
+            animation: pulse-seat 1s infinite;
+        }
+        @keyframes pulse-seat {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; color: #ff6b6b; }
+            100% { opacity: 1; }
+        }
+        .vibe-active {
+            color: #b34141 !important;
+            background: #ffe0e0;
+            padding: 3px 8px;
+            border-radius: 30px;
+            animation: vibe-blink 0.3s infinite alternate, vibe-jump 0.6s infinite ease-in-out;
+            font-weight: 900;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        @keyframes vibe-blink {
+            0% { background: #ffe0e0; color: #c44545; box-shadow: 0 0 5px #ffa5a5; }
+            100% { background: #ffb6b6; color: #a12f2f; box-shadow: 0 0 12px #ff7e7e; }
+        }
+        @keyframes vibe-jump {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0); }
+        }
+        .hydration-alert {
+            background: #ffefc0;
+            border-left: 8px solid #ff9e7a;
+            border-radius: 40px;
+            padding: 10px 16px;
+            margin: 12px 0 8px;
+            color: #4f3b3b;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 4px 10px #ffc6a0;
+            animation: glow 1s infinite alternate;
+        }
+        .message-area {
+            background: #ffd9df;
+            margin-top: 14px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 3px solid #ffb8c1;
+            color: #384e4e;
+            font-weight: bold;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            word-break: break-word;
+            box-shadow: inset 0 0 8px rgba(255, 164, 176, 0.3);
+            background: radial-gradient(circle at 10% 30%, #ffe9ec, #ffdbe0);
+        }
+        .final-message-panel {
+            background: #ffe8a0;
+            border: 5px solid #ff8000;
+            border-radius: 50px;
+            padding: 20px 16px;
+            margin: 16px 0;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #6a3800;
+            text-shadow: 3px 3px 0 #ffd966;
+            box-shadow: 0 0 30px #ffb347;
+            animation: huge-glow 0.8s infinite alternate;
+            display: none;
+            line-height: 1.2;
+        }
+        .log-area {
+            background: #ebf7ff;
+            margin-top: 18px;
+            padding: 16px;
+            border-radius: 24px;
+            color: #2f5555;
+            border: 2px solid #fbb1c2;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: stretch;
+        }
+        .log-block {
+            flex: 1 1 100%;
+            background: #fff3f5;
+            border-radius: 18px;
+            padding: 10px;
+            border: 1px solid #fec5c5;
+        }
+        .log-block-title {
+            font-weight: 800;
+            background: #ffe0e5;
+            padding: 6px 12px;
+            border-radius: 30px;
+            margin-bottom: 8px;
+            color: #3f5a5a;
+            border: 1px solid #ffa7ac;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        .log-list {
+            list-style: none;
+            padding: 6px;
+            margin: 0;
+            max-height: 160px;
+            overflow-y: auto;
+            background: #fff9fa;
+            border-radius: 16px;
+            color: #3e5e5e;
+            font-size: 0.85rem;
+        }
+        .drink-highlight {
+            background: #ffefb0 !important;
+            color: #3a2a2a !important;
+            font-weight: 700;
+            border-radius: 30px;
+            padding-left: 10px;
+            animation: soft-glow 1.2s infinite alternate;
+        }
+        .item-use-panel {
+            background: #ffe5e8;
+            border-radius: 32px;
+            margin-top: 14px;
+            padding: 14px;
+            border: 2px solid #ffb6c1;
+            color: #3b5757;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        .use-item-btn {
+            background: #ffc0cb;
+            border: none;
+            border-radius: 40px;
+            padding: 8px 16px;
+            color: #2a4e4e;
+            font-weight: 600;
+            border-bottom: 4px solid #d9929d;
+            cursor: pointer;
+            transition: 0.06s;
+            box-shadow: 0 3px 8px rgba(255, 150, 150, 0.4);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        .use-item-btn:active {
+            border-bottom-width: 2px;
+            transform: translateY(2px);
+        }
+        .use-item-btn:disabled {
+            opacity: 0.4;
+            border-bottom-width: 4px;
+            transform: none;
+            pointer-events: none;
+        }
+        .emergency-urine-panel {
+            background: #ffe2c9;
+            border-radius: 40px;
+            padding: 14px 18px;
+            margin-top: 14px;
+            border: 3px solid #ffafb0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+            box-shadow: 0 0 16px #fec5bb;
+        }
+        .shop-panel {
+            background: #ffecf0;
+            border-radius: 24px;
+            padding: 14px;
+            margin-top: 16px;
+            color: #3b5959;
+            border: 3px solid #ffb3ba;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        .shop-item {
+            background: #ffe0e5;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #4d6a6a;
+            cursor: pointer;
+            border: 1px solid #ffa7ac;
+            white-space: nowrap;
+        }
+        .button-area {
+            margin-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn {
+            background: #ffb3c6;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #1f4444;
+            border-bottom: 5px solid #e68a8f;
+            cursor: pointer;
+            box-shadow: 0 5px 8px rgba(252, 141, 158, 0.4);
+            letter-spacing: 1px;
+            flex: 1 1 auto;
+            min-width: 120px;
+        }
+        .btn:active {
+            border-bottom-width: 3px;
+            transform: translateY(2px);
+        }
+        .btn:disabled {
+            opacity: 0.45;
+            border-bottom-width: 5px;
+            transform: none;
+            pointer-events: none;
+            background: #d9b3b3;
+            color: #5a5a5a;
+        }
+        .danger-btn {
+            background: #faa0a0;
+            color: #2d4a4a;
+            border-bottom-color: #c46f6f;
+        }
+        .incontinence-btn {
+            background: #aad4c0;
+            color: #1f4a4a;
+            border-bottom-color: #6f9e8c;
+        }
+        .sub-btn {
+            background: #b0dae0;
+            color: #1e4444;
+            border-bottom-color: #7fa3aa;
+        }
+        .inline-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+        .urine-input {
+            width: 90px;
+            padding: 10px 12px;
+            border-radius: 40px;
+            border: 2px solid #ffaeae;
+            background: #fff5f5;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .highlight {
+            color: #d4747c;
+            background: #fff2f2;
+            padding: 4px 12px;
+            border-radius: 30px;
+            border: 1px solid #ffa5a5;
+        }
+        footer {
+            margin-top: 20px;
+            color: #749b9b;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 10px;
+            word-break: break-word;
+        }
+        footer a {
+            color: #3f6b6b;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid #ffb3c6;
+            word-break: break-all;
+        }
+        @media screen and (min-width: 768px) {
+            .game-container { max-width: 900px; padding: 24px 28px; }
+            .status-panel { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+            .stat-value { font-size: 1.3rem; }
+            .log-block { flex: 1 1 calc(50% - 14px); }
+            .btn { padding: 14px 24px; font-size: 1.1rem; }
+            .use-item-btn { font-size: 0.9rem; padding: 8px 18px; }
+        }
+        @media screen and (min-width: 1024px) {
+            .game-container { max-width: 1200px; padding: 30px 36px; }
+            .status-panel { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+            .stat-item { padding: 14px 16px; }
+            .stat-value { font-size: 1.5rem; }
+            .log-block { flex: 1 1 calc(25% - 14px); }
+            .log-list { max-height: 200px; }
+            .btn { padding: 16px 28px; font-size: 1.2rem; min-width: 160px; }
+            .use-item-btn { font-size: 1rem; padding: 10px 22px; white-space: nowrap; }
+            .shop-item { font-size: 0.85rem; padding: 6px 16px; }
+            .item-use-panel { padding: 18px 22px; }
+            h1 { font-size: 2.2rem; }
+            h1 span { font-size: 1rem !important; }
+        }
+        @media screen and (max-width: 380px) {
+            .status-panel { grid-template-columns: 1fr; gap: 8px; }
+            .stat-value { font-size: 1rem; }
+            .btn { font-size: 0.9rem; padding: 10px 14px; min-width: 100px; }
+            .use-item-btn { white-space: normal; word-break: break-word; }
+            .shop-item { white-space: normal; word-break: break-word; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <h1>🚗 返校绝望高速路 <span style="font-size: 1rem; background: #ffced8; padding: 8px 18px; border-radius: 60px; color: #3f6868;">区域: <span id="regionDisplay">1</span>/<span id="totalRegionsDisplay">6</span></span></h1>
+    
+    <!-- 初始喝水选择面板 + 路段数量选择器 -->
+    <div id="initialDrinkPanel" class="initial-drink-panel">
+        <div class="region-selector-row">
+            <label for="totalRegionsSelect">🚧 高速路段数量：</label>
+            <select id="totalRegionsSelect">
+                <option value="1">1段</option>
+                <option value="2">2段</option>
+                <option value="3">3段</option>
+                <option value="4">4段</option>
+                <option value="5">5段</option>
+                <option value="6" selected>6段</option>
+            </select>
+        </div>
+        <div class="drink-buttons">
+            <span style="color:#3f6868; font-size: 1.1rem; font-weight: 800;">💧 上车前喝多少？</span>
+            <button class="drink-option-btn" data-ml="0">不喝 0ml</button>
+            <button class="drink-option-btn" data-ml="100">喝 100ml</button>
+            <button class="drink-option-btn" data-ml="200">喝 200ml</button>
+            <button class="drink-option-btn" data-ml="300">喝 300ml</button>
+            <button class="drink-option-btn" data-ml="400">喝 400ml</button>
+            <button class="drink-option-btn" data-ml="500">喝 500ml</button>
+        </div>
+    </div>
+
+    <!-- 状态面板 -->
+    <div class="status-panel">
+        <div class="stat-item"><span class="stat-label">⏱️ 当前时间</span><span class="stat-value" id="timeDisplay">13:00</span></div>
+        <div class="stat-item"><span class="stat-label">🧃 总喝水量</span><span class="stat-value" id="totalDrinkDisplay">0</span>ml</div>
+        <div class="stat-item"><span class="stat-label">🚻 总放尿量</span><span class="stat-value" id="totalUrineDisplay">0</span>ml</div>
+        <div class="stat-item"><span class="stat-label">🪑 同学座位</span><span class="stat-value" id="seatDisplay">副驾驶</span></div>
+        <div class="stat-item"><span class="stat-label">📏 堵车/时长</span><span class="stat-value" id="jamDisplay">不堵车</span></div>
+        <div class="stat-item"><span class="stat-label">🕹️ 跳蛋</span><span class="stat-value" id="vibeDisplay">无/关</span></div>
+        <div class="stat-item"><span class="stat-label">💦 上次放尿</span><span class="stat-value" id="lastUrineTimeDisplay">--</span></div>
+        <div class="stat-item"><span class="stat-label">⏳ 距上次排尿</span><span class="stat-value" id="sinceLastUrineDisplay">0</span>min</div>
+        <div class="stat-item"><span class="stat-label">📊 上次喝水</span><span class="stat-value" id="drinkSinceLastDisplay">0</span>ml</div>
+        <div class="stat-item"><span class="stat-label">💥 高潮次数</span><span class="stat-value" id="orgasmCountDisplay">0</span></div>
+        <div class="stat-item"><span class="stat-label">💧 失禁次数</span><span class="stat-value" id="incontinenceCountDisplay">0</span></div>
+        <div class="stat-item"><span class="stat-label" id="distanceLabel">🛣️ 距离下一个服务区</span><span class="stat-value" id="distanceToServiceDisplay">--</span>min</div>
+    </div>
+
+    <!-- 内嵌消息提醒区 -->
+    <div id="gameMessage" class="message-area">
+        ⚡ 请先选择上车前饮水量
+    </div>
+
+    <!-- 醒目补水提示区 -->
+    <div id="hydrationAlert" class="hydration-alert" style="display: none;"></div>
+
+    <!-- 记录区 -->
+    <div class="log-area">
+        <div class="log-block">
+            <div class="log-block-title">
+                🚽 放尿 <span id="urineCount">0</span>次 共 <span id="urineTotal">0</span>ml
+            </div>
+            <ul class="log-list" id="urineRecordList"><li>暂无记录</li></ul>
+        </div>
+        <div class="log-block">
+            <div class="log-block-title">
+                💥 高潮 <span id="orgasmCount">0</span>次
+            </div>
+            <ul class="log-list" id="orgasmRecordList"><li>暂无记录</li></ul>
+        </div>
+        <div class="log-block">
+            <div class="log-block-title">
+                💧 失禁 <span id="incontinenceCount">0</span>次
+            </div>
+            <ul class="log-list" id="incontinenceRecordList"><li>暂无记录</li></ul>
+        </div>
+        <div class="log-block">
+            <div class="log-block-title">
+                🎲 全部事件记录
+            </div>
+            <ul class="log-list" id="diceRecordList"><li>暂无记录</li></ul>
+        </div>
+    </div>
+
+    <!-- 道具使用区 -->
+    <div id="itemUsePanel" class="item-use-panel">
+        <span style="color:#4e7a7a; font-weight: 800;">🧴 使用道具</span>
+        <div id="usableItemButtons" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+    </div>
+
+    <!-- 座位羞耻警告 -->
+    <div id="seatShamePanel" class="inline-group" style="margin-top: 10px; display: none;">
+        <span style="background: #ffa5a5; padding: 8px 16px; border-radius: 40px; color: white; font-weight: bold;">🙈 你身边坐着同学呢！</span>
+        <button class="btn sub-btn" id="shameCancelBtn">😣 继续忍</button>
+        <button class="btn sub-btn" id="shameVibeBtn">📳 跳蛋给你玩</button>
+    </div>
+
+    <!-- 紧急放尿面板 -->
+    <div id="emergencyUrinePanel" class="emergency-urine-panel" style="display: none;">
+        <span style="color:#4a6b6b; font-weight: bold;">🚽 即时放尿</span>
+        <input type="number" id="emergencyUrineAmount" class="urine-input" placeholder="ml" min="0" step="10" value="0">
+        <button class="btn sub-btn" id="confirmEmergencyUrineBtn">💦 记录</button>
+        <button class="btn sub-btn" id="cancelEmergencyUrineBtn" style="background: #f0bcb0;">✖ 跳过</button>
+    </div>
+
+    <!-- 服务区商店 -->
+    <div id="serviceActionPanel" style="background: #ffdde1; border-radius: 30px; padding: 16px; margin-top: 8px; color: #3f6767; display: none;">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <span>🚾 服务区放尿</span>
+            <input type="number" id="urineAmountInput" class="urine-input" placeholder="ml" min="0" step="10" value="0">
+            <button class="btn sub-btn" id="confirmUrineBtn">💦 记录</button>
+            <span style="margin-left: 0;">🛒 商店</span>
+        </div>
+        <div class="shop-panel" id="shopItemsContainer"></div>
+    </div>
+
+    <!-- 最终到宿舍提示 & 放尿 -->
+    <div id="finalMessagePanel" class="final-message-panel">
+        🎉 恭喜你终于回到宿舍可以上厕所了！ 🎉
+    </div>
+    <div id="finalUrinePanel" style="background: #ffd0b0; border-radius: 40px; padding: 18px; margin-top: 16px; display: none; text-align: center; border: 4px solid #ff8c42;">
+        <span style="font-size: 1.6rem; font-weight: 900; color: #5e2e00;">🚽 最后放尿</span>
+        <div style="display: flex; gap: 12px; justify-content: center; margin-top: 12px; flex-wrap: wrap;">
+            <input type="number" id="finalUrineAmount" class="urine-input" placeholder="ml" min="0" step="10" value="0" style="width: 120px;">
+            <button class="btn" id="confirmFinalUrineBtn" style="background: #ff8c42; border-bottom-color: #b25c00; color: white;">💦 提交</button>
+        </div>
+    </div>
+
+    <!-- 核心按钮区 -->
+    <div class="button-area">
+        <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+            <div id="dynamicButtons" class="inline-group"></div>
+            <div style="display: flex; gap: 12px; align-items: center; margin-top: 5px; flex-wrap: wrap; justify-content: center;">
+                <button class="btn" id="nextStepBtn" disabled>⏩ 下一步</button>
+                <button class="btn danger-btn" id="orgasmBtn">💥 我高潮了</button>
+                <button class="btn incontinence-btn" id="incontinenceBtn">💧 我失禁了</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚链接 -->
+    <footer>
+        v1.7 | 🎀 游戏创作 <a href="https://www.shireyishunjian.com/main/forum.php?mod=viewthread&tid=292244" target="_blank">大黑塔</a> 
+        | 网页制作 <a href="https://www.shireyishunjian.com/main/home.php?mod=space&uid=736216&do=profile&mycenter=1&mobile=2" target="_blank">小狼爱吃小羊</a>
+    </footer>
+</div>
+
+<script>
+    // ==================== 游戏状态核心 ====================
+    const gameState = {
+        currentTimeMin: 13 * 60,
+        region: 1,
+        totalRegions: 6,                // 新增：总路段数，默认6
+        state: 'initial',
+        segmentBaseMinutes: 0,
+        segmentJamMinutes: 0,
+        segmentRandomAdjust: 0,          // 随机事件调整时间（+/-）
+        segmentDrivenMinutes: 0,
+        jamOccurredThisSegment: false,
+        totalDrink: 0,
+        totalUrine: 0,
+        lastUrineTime: null,
+        lastUrineTotalDrink: 0,
+        urineRecords: [],
+        orgasmRecords: [],
+        incontinenceRecords: [],
+        diceRecords: [],
+        seat: '副驾驶',
+        isJammed: false,
+        jamLength: 0,
+        hasVibe: false,
+        vibeLevel: '关',
+        isSeatBlocked: false,
+        pendingItemId: null,
+        inventory: {
+            pad: false,
+            smallBottle: false,
+            largeBottle: false,
+            tissue: false,
+            jeans: false,
+            vibeItem: false,
+            emptyBottle50: false,
+            emptyBottle100: false
+        },
+        handsBound: false,
+        legsBound: false,
+        randomEventUsedThisStep: false,
+        hadUrineLastService: false,
+        forceGoServiceNext: false,
+        jamCheckActive: false,
+        vibeRolledThisStep: false,
+        homeDistance: 0,
+        homeDriven: 0,
+        brotherShowerTime: 0,
+        brotherShowerElapsed: 0,
+    };
+
+    // ------------- 辅助函数 ------------
+    function rollDice() {
+        return Math.floor(Math.random() * 6) + 1;
+    }
+
+    function formatTime(minutes) {
+        let h = Math.floor(minutes / 60) % 24;
+        let m = minutes % 60;
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+    }
+
+    function addDrink(ml) {
+        gameState.totalDrink += ml;
+    }
+
+    function showMessage(text) {
+        const msgBox = document.getElementById('gameMessage');
+        if (msgBox) msgBox.innerText = '🔔 ' + text;
+    }
+
+    function showHydrationAlert(ml, hadUrine) {
+        const alertDiv = document.getElementById('hydrationAlert');
+        let text = hadUrine ? '🚰 同学提醒：你刚才上过厕所，需要补水 300ml！' : '🚰 同学提醒：路途遥远需要补水 200ml！';
+        text += ` +${ml}ml`;
+        alertDiv.innerText = text;
+        alertDiv.style.display = 'block';
+        setTimeout(() => { alertDiv.style.display = 'none'; }, 6000);
+    }
+
+    function logEvent(action, dice, description) {
+        const record = {
+            action: action,
+            dice: dice || 0,
+            description: description,
+            time: gameState.currentTimeMin
+        };
+        gameState.diceRecords.unshift(record);
+        showMessage(`${action}: ${description}`);
+    }
+
+    function logDice(action, dice, description) {
+        logEvent(action, dice, description);
+    }
+
+    function recordUrination(ml, source = 'manual') {
+        if (isNaN(ml) || ml < 0) ml = 0;
+        gameState.totalUrine += ml;
+        gameState.urineRecords.push({ time: gameState.currentTimeMin, ml: ml, source: source });
+        gameState.lastUrineTime = gameState.currentTimeMin;
+        gameState.lastUrineTotalDrink = gameState.totalDrink;
+        gameState.hadUrineLastService = true;
+        showMessage(`💦 记录放尿 ${ml}ml (${source})`);
+        render();
+    }
+
+    function addOrgasm() {
+        gameState.orgasmRecords.push({ time: gameState.currentTimeMin });
+        showMessage('💥 高潮记录 +1');
+        render();
+    }
+
+    function addIncontinence() {
+        gameState.incontinenceRecords.push({ time: gameState.currentTimeMin });
+        showMessage('💧 失禁记录 +1');
+        render();
+    }
+
+    // ---------- 免费购买道具 ----------
+    function buyItem(itemId, costMl) {
+        if (itemId === 'pad' && gameState.inventory.pad) { showMessage('🩸 已拥有姨妈巾'); return false; }
+        if (itemId === 'smallBottle' && gameState.inventory.smallBottle) { showMessage('🧂 已拥有小瓶矿泉水'); return false; }
+        if (itemId === 'largeBottle' && gameState.inventory.largeBottle) { showMessage('💧 已拥有大瓶矿泉水'); return false; }
+        if (itemId === 'tissue' && gameState.inventory.tissue) { showMessage('🧻 已拥有三张纸巾'); return false; }
+        if (itemId === 'jeans' && gameState.inventory.jeans) { showMessage('👖 已拥有替换牛仔裤'); return false; }
+        if (itemId === 'vibeItem' && gameState.inventory.vibeItem) { showMessage('📳 已拥有350ml空瓶+跳蛋【喝200ml】'); return false; }
+
+        switch (itemId) {
+            case 'pad': gameState.inventory.pad = true; showMessage('🩸 姨妈巾 +1 (【喝200ml】)'); break;
+            case 'smallBottle': gameState.inventory.smallBottle = true; showMessage('🧂 小瓶矿泉水 +1 (【喝350ml】可放尿)'); break;
+            case 'largeBottle': gameState.inventory.largeBottle = true; showMessage('💧 大瓶矿泉水 +1 (【喝500ml】可放尿)'); break;
+            case 'tissue': gameState.inventory.tissue = true; showMessage('🧻 三张纸巾 +1 (【喝100ml】)'); break;
+            case 'jeans': gameState.inventory.jeans = true; showMessage('👖 牛仔裤 +1 (【喝600ml】)'); break;
+            case 'vibeItem': 
+                gameState.inventory.vibeItem = true; 
+                gameState.hasVibe = false;
+                showMessage('📳 350ml空瓶+跳蛋【喝200ml】 (使用【喝200ml】并激活)'); 
+                break;
+        }
+        render();
+        return true;
+    }
+
+    // ---------- 使用道具 ----------
+    function useItem(itemId) {
+        if (gameState.state === 'finalWaiting' || gameState.state === 'finalArrived' || gameState.state === 'finish') {
+            showMessage('⏳ 现在不是使用道具的时候');
+            return;
+        }
+        if (gameState.seat === '你旁边' && gameState.isSeatBlocked) {
+            gameState.pendingItemId = itemId;
+            document.getElementById('seatShamePanel').style.display = 'flex';
+            render();
+            return;
+        }
+        executeUseItem(itemId);
+    }
+
+    function executeUseItem(itemId) {
+        const drinkMap = { 'pad':200, 'smallBottle':350, 'largeBottle':500, 'tissue':100, 'jeans':600 };
+        
+        if (itemId === 'emptyBottle50') {
+            if (!gameState.inventory.emptyBottle50) { showMessage('⛔ 你没有这个道具'); return; }
+            gameState.inventory.emptyBottle50 = false;
+            showMessage(`🧴 使用50ml空瓶，请记录放尿量（可输入0跳过）`);
+            document.getElementById('emergencyUrinePanel').style.display = 'flex';
+            document.getElementById('emergencyUrineAmount').focus();
+            window.__lastUsedBottle = '50ml空瓶';
+            render();
+            return;
+        }
+        if (itemId === 'emptyBottle100') {
+            if (!gameState.inventory.emptyBottle100) { showMessage('⛔ 你没有这个道具'); return; }
+            gameState.inventory.emptyBottle100 = false;
+            showMessage(`🧴 使用100ml空瓶，请记录放尿量（可输入0跳过）`);
+            document.getElementById('emergencyUrinePanel').style.display = 'flex';
+            document.getElementById('emergencyUrineAmount').focus();
+            window.__lastUsedBottle = '100ml空瓶';
+            render();
+            return;
+        }
+
+        if (itemId === 'vibeItem') {
+            if (!gameState.inventory.vibeItem) { showMessage('⛔ 你没有这个道具'); return; }
+            gameState.totalDrink += 200;
+            gameState.hasVibe = true;
+            gameState.inventory.vibeItem = false;
+            logEvent('使用道具', 0, `350ml空瓶+跳蛋【喝200ml】，跳蛋激活`);
+            showMessage(`📳 激活跳蛋！ +喝200ml，请记录放尿量（可输入0跳过）`);
+            document.getElementById('emergencyUrinePanel').style.display = 'flex';
+            document.getElementById('emergencyUrineAmount').focus();
+            window.__lastUsedBottle = '跳蛋激活放尿';
+            render();
+            return;
+        }
+
+        if (!gameState.inventory[itemId]) { showMessage('⛔ 你没有这个道具'); return; }
+        const ml = drinkMap[itemId];
+        gameState.totalDrink += ml;
+        gameState.inventory[itemId] = false;
+
+        let itemName = '';
+        switch(itemId) {
+            case 'pad': itemName = '姨妈巾'; break;
+            case 'smallBottle': itemName = '小瓶矿泉水'; break;
+            case 'largeBottle': itemName = '大瓶矿泉水'; break;
+            case 'tissue': itemName = '三张纸巾'; break;
+            case 'jeans': itemName = '牛仔裤'; break;
+        }
+        logEvent('使用道具', 0, `${itemName}【喝${ml}ml】`);
+
+        if (itemId === 'smallBottle' || itemId === 'largeBottle') {
+            showMessage(`✅ 使用道具 +喝${ml}ml，请记录放尿量（可输入0跳过）`);
+            document.getElementById('emergencyUrinePanel').style.display = 'flex';
+            document.getElementById('emergencyUrineAmount').focus();
+            window.__lastUsedBottle = itemId === 'smallBottle' ? '小瓶矿泉水' : '大瓶矿泉水';
+        } else {
+            showMessage(`✅ 使用道具 +喝${ml}ml，道具已消耗`);
+        }
+        render();
+    }
+
+    // ---------- 羞耻警告 ----------
+    function attachShameEvents() {
+        const cancelBtn = document.getElementById('shameCancelBtn');
+        const vibeBtn = document.getElementById('shameVibeBtn');
+        if (cancelBtn) cancelBtn.onclick = function() {
+            gameState.pendingItemId = null;
+            document.getElementById('seatShamePanel').style.display = 'none';
+            showMessage('😣 你继续忍耐着...');
+            render();
+        };
+        if (vibeBtn) vibeBtn.onclick = function() {
+            gameState.hasVibe = true;
+            gameState.isSeatBlocked = false;
+            logEvent('座位解围', 0, '跳蛋给你玩，同学不再盯着你');
+            showMessage('📳 跳蛋给你玩，同学被吸引了！现在可以使用道具了');
+            document.getElementById('seatShamePanel').style.display = 'none';
+            if (gameState.pendingItemId) {
+                const pid = gameState.pendingItemId;
+                gameState.pendingItemId = null;
+                executeUseItem(pid);
+            }
+            render();
+        };
+    }
+
+    // ---------- 初始化饮水（同时获取总段数）----------
+    function initDrinkSelection() {
+        const panel = document.getElementById('initialDrinkPanel');
+        const select = document.getElementById('totalRegionsSelect');
+        panel.querySelectorAll('.drink-option-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // 保存总段数
+                gameState.totalRegions = parseInt(select.value);
+                // 更新总段数显示
+                document.getElementById('totalRegionsDisplay').innerText = gameState.totalRegions;
+
+                const ml = parseInt(this.dataset.ml);
+                gameState.totalDrink = ml;
+                logEvent('上车前饮水', 0, `喝${ml}ml`);
+                gameState.state = 'preDrive';
+                panel.style.display = 'none';  // 隐藏整个初始面板
+                document.getElementById('nextStepBtn').disabled = true;
+                showMessage(`🚗 上车前饮水 ${ml}ml，高速路段数: ${gameState.totalRegions}，点击「行驶时长」掷骰子出发`);
+                render();
+            });
+        });
+    }
+
+    // ========== 随机事件系统 ==========
+    const RANDOM_EVENTS = [
+        function() { addDrink(50); logEvent('随机事件', 0, '同学觉得你渴了，喝50ml饮料'); showMessage('🍹 同学递给你一杯饮料 +50ml'); },
+        function() { addDrink(100); logEvent('随机事件', 0, '同学觉得你渴了，喝100ml饮料'); showMessage('🍹 同学递给你一杯饮料 +100ml'); },
+        function() { gameState.inventory.emptyBottle50 = true; logEvent('随机事件', 0, '在车里发现一个50ml空瓶'); showMessage('🧴 你捡到一个50ml空瓶！'); },
+        function() { gameState.inventory.emptyBottle100 = true; logEvent('随机事件', 0, '在车里发现一个100ml空瓶'); showMessage('🧴 你捡到一个100ml空瓶！'); },
+        function() {
+            const possible = [];
+            if (gameState.inventory.pad) possible.push('pad');
+            if (gameState.inventory.smallBottle) possible.push('smallBottle');
+            if (gameState.inventory.largeBottle) possible.push('largeBottle');
+            if (gameState.inventory.tissue) possible.push('tissue');
+            if (gameState.inventory.jeans) possible.push('jeans');
+            if (gameState.inventory.vibeItem) possible.push('vibeItem');
+            if (gameState.inventory.emptyBottle50) possible.push('emptyBottle50');
+            if (gameState.inventory.emptyBottle100) possible.push('emptyBottle100');
+            if (possible.length === 0) {
+                logEvent('随机事件', 0, '手忙脚乱，但没有道具可丢');
+                showMessage('😅 你手忙脚乱，还好没有道具可丢');
+            } else {
+                const lost = possible[Math.floor(Math.random() * possible.length)];
+                gameState.inventory[lost] = false;
+                if (lost === 'vibeItem') { gameState.hasVibe = false; gameState.vibeLevel = '关'; }
+                let lostName = { 'pad':'姨妈巾', 'smallBottle':'小瓶矿泉水', 'largeBottle':'大瓶矿泉水', 'tissue':'三张纸巾', 'jeans':'牛仔裤', 'vibeItem':'350ml空瓶+跳蛋', 'emptyBottle50':'50ml空瓶', 'emptyBottle100':'100ml空瓶' }[lost];
+                logEvent('随机事件', 0, `手忙脚乱，丢失了${lostName}`);
+                showMessage(`😨 手忙脚乱，${lostName}不见了！`);
+            }
+        },
+        function() {
+            if (!gameState.inventory.pad) { gameState.inventory.pad = true; logEvent('随机事件', 0, '从书包里翻出姨妈巾一条'); showMessage('🩸 你翻出了一条姨妈巾！'); }
+            else { logEvent('随机事件', 0, '从书包里翻出姨妈巾，但你已经有了'); showMessage('🩸 你翻出了姨妈巾，不过已经有了'); }
+        },
+        function() {
+            if (!gameState.inventory.tissue) { gameState.inventory.tissue = true; logEvent('随机事件', 0, '从书包里翻出三张纸巾'); showMessage('🧻 你翻出了三张纸巾！'); }
+            else { logEvent('随机事件', 0, '从书包里翻出纸巾，但你已经有了'); showMessage('🧻 你翻出了纸巾，不过已经有了'); }
+        },
+        function() { gameState.handsBound = true; logEvent('随机事件', 0, '同学使坏，把你双手在背后捆绑起来，直到下一个休息区'); showMessage('🪢 同学把你双手绑在背后！'); },
+        function() { gameState.legsBound = true; logEvent('随机事件', 0, '同学使坏，把你双腿M字捆绑起来，直到下一个休息区'); showMessage('🪢 同学把你双腿M字绑住！'); },
+        function() {
+            if (!gameState.hasVibe) { gameState.hasVibe = true; gameState.vibeLevel = '小档'; logEvent('随机事件', 0, '被发现你书包里的跳蛋遥控器，跳蛋激活'); showMessage('📳 跳蛋遥控器被发现了！跳蛋开始震动'); }
+            else { logEvent('随机事件', 0, '跳蛋遥控器又被翻出来了，但已经激活'); showMessage('📳 跳蛋遥控器又被翻出来了'); }
+        },
+        function() { gameState.segmentRandomAdjust += 5; logEvent('随机事件', 0, '汽车出毛病了，减速行驶，到休息站时间加5分钟'); showMessage('🚗 汽车故障，减速5分钟'); },
+        function() { gameState.segmentRandomAdjust += 10; logEvent('随机事件', 0, '汽车出毛病了，减速行驶，到休息站时间加10分钟'); showMessage('🚗 汽车故障，减速10分钟'); },
+        function() { gameState.segmentRandomAdjust -= 5; logEvent('随机事件', 0, '同学见女朋友心切，加速行驶，到休息站时间减少5分钟'); showMessage('🏎️ 同学加速！到站时间-5分钟'); },
+        function() { gameState.segmentRandomAdjust -= 10; logEvent('随机事件', 0, '同学见女朋友心切，加速行驶，到休息站时间减少10分钟'); showMessage('🏎️ 同学狂飙！到站时间-10分钟'); },
+        function() { logEvent('随机事件', 0, '无事发生，虚惊一场'); showMessage('😌 虚惊一场，什么都没有发生'); }
+    ];
+
+    function triggerRandomEvent() {
+        if (gameState.randomEventUsedThisStep) {
+            showMessage('⚠️ 这一步已经触发过随机事件了');
+            return;
+        }
+        const idx = Math.floor(Math.random() * RANDOM_EVENTS.length);
+        RANDOM_EVENTS[idx]();
+        gameState.randomEventUsedThisStep = true;
+        render();
+    }
+
+    // ---------- 渲染UI ----------
+    function render() {
+        document.getElementById('timeDisplay').innerText = formatTime(gameState.currentTimeMin);
+        // 区域显示：如果超过总段数，显示“已完成”
+        const regionDisplay = gameState.region > gameState.totalRegions ? '已完成' : gameState.region;
+        document.getElementById('regionDisplay').innerText = regionDisplay;
+        document.getElementById('totalRegionsDisplay').innerText = gameState.totalRegions;
+        document.getElementById('totalDrinkDisplay').innerText = gameState.totalDrink;
+        document.getElementById('totalUrineDisplay').innerText = gameState.totalUrine;
+
+        const seatEl = document.getElementById('seatDisplay');
+        seatEl.innerText = gameState.seat + (gameState.handsBound ? ' [双手绑]' : '') + (gameState.legsBound ? ' [双腿绑]' : '');
+        seatEl.className = 'stat-value';
+        if (gameState.seat === '你旁边') seatEl.classList.add('seat-danger');
+
+        let jamText = gameState.isJammed ? `是(+${gameState.jamLength}min)` : '不堵车';
+        if (gameState.segmentRandomAdjust !== 0) {
+            jamText += ` 随机${gameState.segmentRandomAdjust > 0 ? '+' : ''}${gameState.segmentRandomAdjust}min`;
+        }
+        document.getElementById('jamDisplay').innerText = jamText;
+
+        const vibeEl = document.getElementById('vibeDisplay');
+        let vibeText = '无/关';
+        if (gameState.hasVibe) {
+            vibeText = `同学随机遥控中 ${gameState.vibeLevel}`;
+            vibeEl.className = 'stat-value vibe-active';
+        } else {
+            vibeText = '无/关';
+            vibeEl.className = 'stat-value';
+        }
+        vibeEl.innerText = vibeText;
+
+        if (gameState.lastUrineTime !== null) {
+            document.getElementById('lastUrineTimeDisplay').innerText = formatTime(gameState.lastUrineTime);
+            let since = gameState.currentTimeMin - gameState.lastUrineTime;
+            document.getElementById('sinceLastUrineDisplay').innerText = since;
+            let drinkSince = gameState.totalDrink - (gameState.lastUrineTotalDrink || 0);
+            document.getElementById('drinkSinceLastDisplay').innerText = drinkSince;
+        } else {
+            document.getElementById('lastUrineTimeDisplay').innerText = '--';
+            document.getElementById('sinceLastUrineDisplay').innerText = '0';
+            document.getElementById('drinkSinceLastDisplay').innerText = '0';
+        }
+
+        document.getElementById('orgasmCountDisplay').innerText = gameState.orgasmRecords.length;
+        document.getElementById('incontinenceCountDisplay').innerText = gameState.incontinenceRecords.length;
+
+        // 距离计算
+        let distanceText = '--';
+        if (gameState.state === 'driving') {
+            let totalNeeded = gameState.segmentBaseMinutes + gameState.segmentJamMinutes + gameState.segmentRandomAdjust;
+            if (totalNeeded < 0) totalNeeded = 0;
+            let remain = totalNeeded - gameState.segmentDrivenMinutes;
+            distanceText = remain > 0 ? remain : 0;
+        } else if (gameState.state === 'finalDriving') {
+            let remain = gameState.homeDistance - gameState.homeDriven;
+            distanceText = remain > 0 ? remain : 0;
+        } else if (gameState.state === 'finalWaiting') {
+            let remain = gameState.brotherShowerTime - gameState.brotherShowerElapsed;
+            distanceText = remain > 0 ? remain : 0;
+        } else if (gameState.state === 'serviceEnterJudge' || gameState.state === 'inService') {
+            distanceText = '已到达';
+        }
+        document.getElementById('distanceToServiceDisplay').innerText = distanceText;
+
+        // 动态修改距离标签文字
+        const distanceLabel = document.getElementById('distanceLabel');
+        if (distanceLabel) {
+            if (gameState.state === 'finalWaiting') {
+                distanceLabel.innerText = '🛣️ 距离使用宿舍厕所';
+            } else if (gameState.state === 'finalDriving' || gameState.state === 'finalDriveInit' || 
+                       gameState.state === 'finalArrived' || gameState.state === 'finalEnd' || 
+                       gameState.state === 'finish' || gameState.region > gameState.totalRegions) {
+                distanceLabel.innerText = '🛣️ 距离学校';
+            } else {
+                distanceLabel.innerText = '🛣️ 距离下一个服务区';
+            }
+        }
+
+        // 统计标题
+        document.getElementById('urineCount').innerText = gameState.urineRecords.length;
+        document.getElementById('urineTotal').innerText = gameState.totalUrine;
+        document.getElementById('orgasmCount').innerText = gameState.orgasmRecords.length;
+        document.getElementById('incontinenceCount').innerText = gameState.incontinenceRecords.length;
+
+        // 放尿记录
+        let urineHtml = '';
+        if (gameState.urineRecords.length === 0) urineHtml = '<li>暂无记录</li>';
+        else {
+            gameState.urineRecords.forEach(rec => {
+                urineHtml += `<li>🚽 ${formatTime(rec.time)}  ${rec.ml}ml ${rec.source ? `(${rec.source})` : ''}</li>`;
+            });
+        }
+        document.getElementById('urineRecordList').innerHTML = urineHtml;
+
+        // 高潮记录
+        let orgasmHtml = '';
+        if (gameState.orgasmRecords.length === 0) orgasmHtml = '<li>暂无记录</li>';
+        else {
+            gameState.orgasmRecords.forEach(rec => {
+                orgasmHtml += `<li>💥 ${formatTime(rec.time)}</li>`;
+            });
+        }
+        document.getElementById('orgasmRecordList').innerHTML = orgasmHtml;
+
+        // 失禁记录
+        let incontinenceHtml = '';
+        if (gameState.incontinenceRecords.length === 0) incontinenceHtml = '<li>暂无记录</li>';
+        else {
+            gameState.incontinenceRecords.forEach(rec => {
+                incontinenceHtml += `<li>💧 ${formatTime(rec.time)}</li>`;
+            });
+        }
+        document.getElementById('incontinenceRecordList').innerHTML = incontinenceHtml;
+
+        // 全部事件记录（喝水高亮）
+        let diceHtml = '';
+        if (gameState.diceRecords.length === 0) diceHtml = '<li>暂无记录</li>';
+        else {
+            gameState.diceRecords.forEach(rec => {
+                const isDrink = rec.action.includes('喝') || rec.action.includes('水') || rec.action.includes('饮水') || 
+                               rec.action.includes('提醒') || rec.action.includes('使用道具') || rec.action.includes('上车前') ||
+                               (rec.action.includes('随机事件') && rec.description.includes('喝'));
+                const highlightClass = isDrink ? 'drink-highlight' : '';
+                const diceSymbol = (rec.dice && rec.dice > 0) ? ` 🎲${rec.dice}` : '';
+                diceHtml += `<li class="${highlightClass}">🎲 ${formatTime(rec.time)} ${rec.action}${diceSymbol} → ${rec.description}</li>`;
+            });
+        }
+        document.getElementById('diceRecordList').innerHTML = diceHtml;
+
+        // 道具面板可见性
+        const itemPanel = document.getElementById('itemUsePanel');
+        if (gameState.state === 'initial' || gameState.state === 'preDrive' || 
+            gameState.state === 'finalWaiting' || gameState.state === 'finalArrived' || 
+            gameState.state === 'finish' || gameState.state === 'finalDriveInit') {
+            itemPanel.style.display = 'none';
+        } else {
+            itemPanel.style.display = 'flex';
+        }
+
+        // 服务区面板
+        if (gameState.state !== 'inService') {
+            document.getElementById('serviceActionPanel').style.display = 'none';
+        } else {
+            document.getElementById('serviceActionPanel').style.display = 'block';
+        }
+
+        // 最终到宿舍提示
+        if (gameState.state === 'finalEnd') {
+            document.getElementById('finalMessagePanel').style.display = 'block';
+            document.getElementById('finalUrinePanel').style.display = 'block';
+        } else {
+            document.getElementById('finalMessagePanel').style.display = 'none';
+            document.getElementById('finalUrinePanel').style.display = 'none';
+        }
+
+        renderUsableItems();
+        renderDynamicButtons();
+        renderServiceShop();
+
+        const stateLabel = document.getElementById('currentStateLabel');
+        if (!stateLabel) return;
+        if (gameState.state === 'initial') stateLabel.innerText = '💧 初始饮水选择';
+        else if (gameState.state === 'preDrive') stateLabel.innerText = '🚘 等待掷骰子';
+        else if (gameState.state === 'driving') stateLabel.innerText = '🚗 行驶中';
+        else if (gameState.state === 'serviceEnterJudge') stateLabel.innerText = '🚏 服务区判定';
+        else if (gameState.state === 'inService') stateLabel.innerText = '🛒 服务区';
+        else if (gameState.state === 'finalDriveInit') stateLabel.innerText = '🛣️ 下高速掷骰子';
+        else if (gameState.state === 'finalDriving') stateLabel.innerText = '🏫 开到学校路上';
+        else if (gameState.state === 'finalArrived') stateLabel.innerText = '🚿 室友洗澡掷骰子';
+        else if (gameState.state === 'finalWaiting') stateLabel.innerText = '🛁 等室友洗澡';
+        else if (gameState.state === 'finalEnd') stateLabel.innerText = '🎉 游戏结束·最后放尿';
+        else if (gameState.state === 'finish') stateLabel.innerText = '🏁 旅程完结';
+    }
+
+    // 可用道具按钮
+    function renderUsableItems() {
+        const container = document.getElementById('usableItemButtons');
+        if (!container) return;
+        let html = '';
+        const usableIds = ['pad', 'smallBottle', 'largeBottle', 'tissue', 'jeans', 'vibeItem', 'emptyBottle50', 'emptyBottle100'];
+        usableIds.forEach(id => {
+            if (gameState.inventory[id]) {
+                let buttonText = '';
+                switch(id) {
+                    case 'pad': buttonText = '🩸 姨妈巾【喝200ml】'; break;
+                    case 'smallBottle': buttonText = '🧂 小瓶矿泉水【喝350ml】'; break;
+                    case 'largeBottle': buttonText = '💧 大瓶矿泉水【喝500ml】'; break;
+                    case 'tissue': buttonText = '🧻 三张纸巾【喝100ml】'; break;
+                    case 'jeans': buttonText = '👖 牛仔裤【喝600ml】'; break;
+                    case 'vibeItem': buttonText = '📳 350ml空瓶+跳蛋【喝200ml】'; break;
+                    case 'emptyBottle50': buttonText = '🧴 50ml空瓶【放尿】'; break;
+                    case 'emptyBottle100': buttonText = '🧴 100ml空瓶【放尿】'; break;
+                }
+                html += `<button class="use-item-btn" data-item-id="${id}">${buttonText}</button>`;
+            }
+        });
+        if (html === '') html = '<span style="color:#6b8e8e;">🕳️ 无可使用的道具</span>';
+        container.innerHTML = html;
+        container.querySelectorAll('.use-item-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => { useItem(btn.dataset.itemId); });
+        });
+    }
+
+    // 动态按钮
+    function renderDynamicButtons() {
+        const div = document.getElementById('dynamicButtons');
+        const nextBtn = document.getElementById('nextStepBtn');
+        if (!div || !nextBtn) return;
+        let html = '';
+
+        if (gameState.state === 'preDrive') {
+            html += `<button class="btn sub-btn" id="rollSegmentTimeBtn">🎲 行驶时长</button>`;
+            nextBtn.innerText = '⏩ 下一步';
+            nextBtn.disabled = true;
+        }
+        else if (gameState.state === 'driving' || gameState.state === 'finalDriving') {
+            if (gameState.state === 'driving') {
+                nextBtn.innerText = '⏩ 下一步';
+                let nextDisabled = false;
+                if (gameState.jamCheckActive) nextDisabled = true;
+                if (gameState.hasVibe && !gameState.vibeRolledThisStep) nextDisabled = true;
+                nextBtn.disabled = nextDisabled;
+
+                if (gameState.segmentDrivenMinutes >= 20 && !gameState.jamOccurredThisSegment && gameState.segmentBaseMinutes > 0) {
+                    html += `<button class="btn sub-btn" id="jamCheckBtn">🚧 是否堵车</button>`;
+                    gameState.jamCheckActive = true;
+                    nextBtn.disabled = true;
+                } else {
+                    gameState.jamCheckActive = false;
+                }
+            } else { // finalDriving
+                nextBtn.innerText = '⏩ 开到学校';
+                let nextDisabled = false;
+                if (gameState.hasVibe && !gameState.vibeRolledThisStep) nextDisabled = true;
+                nextBtn.disabled = nextDisabled;
+            }
+
+            if (gameState.hasVibe && !gameState.vibeRolledThisStep) {
+                html += `<button class="btn sub-btn" id="manualVibeBtn">📳 跳蛋掷骰子</button>`;
+            } else if (gameState.hasVibe && gameState.vibeRolledThisStep) {
+                html += `<span class="highlight">📳 已掷</span>`;
+            }
+
+            html += `<button class="btn sub-btn" id="randomEventBtn" ${gameState.randomEventUsedThisStep ? 'disabled' : ''}>🎲 随机事件</button>`;
+        }
+        else if (gameState.state === 'serviceEnterJudge') {
+            nextBtn.disabled = true;
+            html += `<span class="highlight">🚏 同学决定</span>`;
+            html += `<button class="btn sub-btn" id="decideServiceRollBtn">🎲 掷骰子</button>`;
+        }
+        else if (gameState.state === 'inService') {
+            nextBtn.innerText = '⏩ 离开服务区';
+            nextBtn.disabled = false;
+        }
+        else if (gameState.state === 'finalDriveInit') {
+            nextBtn.disabled = true;
+            html += `<span class="highlight">🛣️ 下高速了</span>`;
+            html += `<button class="btn sub-btn" id="rollHomeDistanceBtn">🎲 到校时长</button>`;
+        }
+        else if (gameState.state === 'finalArrived') {
+            nextBtn.disabled = true;
+            html += `<span class="highlight">🚿 室友洗澡</span>`;
+            html += `<button class="btn sub-btn" id="rollShowerTimeBtn">🎲 洗澡时长</button>`;
+        }
+        else if (gameState.state === 'finalWaiting') {
+            nextBtn.innerText = '⏩ 等室友';
+            nextBtn.disabled = false;
+        }
+        else if (gameState.state === 'finalEnd') {
+            nextBtn.disabled = true;
+            nextBtn.innerText = '⏩ 结束';
+        }
+
+        div.innerHTML = html;
+        attachDynamicEvents();
+    }
+
+    function attachDynamicEvents() {
+        const rollBtn = document.getElementById('rollSegmentTimeBtn');
+        if (rollBtn) rollBtn.onclick = function() {
+            let dice = rollDice();
+            let minutes = [30,35,40,45,50,60][dice-1];
+            gameState.segmentBaseMinutes = minutes;
+            gameState.segmentJamMinutes = 0;
+            gameState.segmentRandomAdjust = 0;
+            gameState.segmentDrivenMinutes = 0;
+            gameState.jamOccurredThisSegment = false;
+            gameState.isJammed = false;
+            logDice('行驶时长', dice, `${minutes}分钟`);
+
+            let seatDice = rollDice();
+            gameState.seat = (seatDice % 2 === 1) ? '副驾驶' : '你旁边';
+            gameState.isSeatBlocked = (gameState.seat === '你旁边');
+            logDice('座位', seatDice, gameState.seat);
+
+            let drinkAmount = gameState.hadUrineLastService ? 300 : 200;
+            addDrink(drinkAmount);
+            logEvent('同学提醒', 0, `喝${drinkAmount}ml`);
+
+            gameState.state = 'driving';
+            gameState.jamCheckActive = false;
+            gameState.vibeRolledThisStep = false;
+            gameState.randomEventUsedThisStep = false;
+            document.getElementById('nextStepBtn').disabled = true;
+            showMessage(`🎲 本段时长 ${minutes}分钟，座位: ${gameState.seat}，饮水+${drinkAmount}ml`);
+            render();
+        };
+
+        const jamBtn = document.getElementById('jamCheckBtn');
+        if (jamBtn) jamBtn.onclick = function() {
+            let dice = rollDice();
+            if (dice % 2 === 1) {
+                gameState.isJammed = true;
+                let jamDice = rollDice();
+                let jamTime = [3,5,10,13,15,20][jamDice-1];
+                gameState.jamLength = jamTime;
+                gameState.segmentJamMinutes = jamTime;
+                gameState.jamOccurredThisSegment = true;
+                logDice('堵车判定', dice, '堵车');
+                logDice('堵车时长', jamDice, `${jamTime}分钟`);
+                showMessage(`🚧 堵车！延长${jamTime}分钟`);
+            } else {
+                gameState.isJammed = false;
+                gameState.jamLength = 0;
+                gameState.jamOccurredThisSegment = true;
+                logDice('堵车判定', dice, '不堵车');
+                showMessage('✅ 没有堵车');
+            }
+            gameState.jamCheckActive = false;
+            render();
+        };
+
+        const vibeBtn = document.getElementById('manualVibeBtn');
+        if (vibeBtn) vibeBtn.onclick = function() {
+            rollVibe();
+            gameState.vibeRolledThisStep = true;
+            render();
+        };
+
+        const randomBtn = document.getElementById('randomEventBtn');
+        if (randomBtn) randomBtn.onclick = function() {
+            triggerRandomEvent();
+        };
+
+        const decideBtn = document.getElementById('decideServiceRollBtn');
+        if (decideBtn) decideBtn.onclick = function() {
+            if (gameState.forceGoServiceNext) {
+                showMessage('🚏 同学这次一定会去服务区');
+                gameState.forceGoServiceNext = false;
+                enterServiceDirectly();
+                return;
+            }
+            let dice = rollDice();
+            let goService = (dice % 2 === 0);
+            logDice('服务区意愿', dice, goService ? '去服务区' : '不去服务区');
+            let dynamicDiv = document.getElementById('dynamicButtons');
+            if (goService) {
+                dynamicDiv.innerHTML += `<div style="margin-top: 6px;">✅ 同学决定去服务区。你要留在车上吗？</div>`;
+                dynamicDiv.innerHTML += `<button class="btn sub-btn" id="stayInCarBtn">🚐 留在车上</button>`;
+                dynamicDiv.innerHTML += `<button class="btn sub-btn" id="goToServiceBtn">🚻 去服务区</button>`;
+            } else {
+                dynamicDiv.innerHTML += `<div style="margin-top: 6px;">❌ 同学想略过服务区。你的选择：</div>`;
+                dynamicDiv.innerHTML += `<button class="btn sub-btn" id="skipServiceBtn">⏩ 不去服务区</button>`;
+                dynamicDiv.innerHTML += `<button class="btn sub-btn" id="insistServiceBtn">💧 喝水交换</button>`;
+            }
+            attachServiceDecisionEvents();
+        };
+
+        const homeRollBtn = document.getElementById('rollHomeDistanceBtn');
+        if (homeRollBtn) homeRollBtn.onclick = function() {
+            let dice = rollDice();
+            let minutes = [5,10,15,20,25,30][dice-1];
+            gameState.homeDistance = minutes;
+            gameState.homeDriven = 0;
+            logDice('下高速', dice, `距离学校${minutes}分钟`);
+            showMessage(`🛣️ 下高速了，距离学校还有 ${minutes} 分钟`);
+            gameState.state = 'finalDriving';
+            gameState.vibeRolledThisStep = false;
+            gameState.randomEventUsedThisStep = false;
+            render();
+        };
+
+        const showerRollBtn = document.getElementById('rollShowerTimeBtn');
+        if (showerRollBtn) showerRollBtn.onclick = function() {
+            let dice = rollDice();
+            let minutes = [5,10,15,20,25,30][dice-1];
+            gameState.brotherShowerTime = minutes;
+            gameState.brotherShowerElapsed = 0;
+            logDice('室友洗澡', dice, `洗澡${minutes}分钟`);
+            showMessage(`🚿 室友开始洗澡，需要等 ${minutes} 分钟`);
+            gameState.state = 'finalWaiting';
+            render();
+        };
+    }
+
+    function rollVibe() {
+        if (!gameState.hasVibe) return;
+        let d = rollDice();
+        let desc = '';
+        switch(d) {
+            case 1: gameState.vibeLevel = '小档'; desc = '小档'; break;
+            case 2: gameState.vibeLevel = '关'; desc = '关'; break;
+            case 3: gameState.vibeLevel = '中档'; desc = '中档'; break;
+            case 4: gameState.vibeLevel = '关'; desc = '关'; break;
+            case 5: gameState.vibeLevel = '高档'; desc = '高档'; break;
+            case 6: 
+                if (gameState.vibeLevel === '小档') gameState.vibeLevel = '中档';
+                else if (gameState.vibeLevel === '中档') gameState.vibeLevel = '高档';
+                else if (gameState.vibeLevel === '高档') gameState.vibeLevel = '小档';
+                else gameState.vibeLevel = '小档';
+                desc = `切换至${gameState.vibeLevel}`;
+                break;
+        }
+        logDice('跳蛋', d, desc);
+        showMessage(`📳 跳蛋: ${desc}`);
+    }
+
+    function attachServiceDecisionEvents() {
+        const stayBtn = document.getElementById('stayInCarBtn');
+        if (stayBtn) stayBtn.onclick = function() {
+            gameState.forceGoServiceNext = true;
+            showMessage('你留在车上，下一次同学必去服务区');
+            finishSegmentAndNextRegion();
+        };
+        const goBtn = document.getElementById('goToServiceBtn');
+        if (goBtn) goBtn.onclick = function() {
+            enterServiceDirectly();
+        };
+        const skipBtn = document.getElementById('skipServiceBtn');
+        if (skipBtn) skipBtn.onclick = function() {
+            gameState.forceGoServiceNext = true;
+            showMessage('你同意略过服务区，下一次必去服务区');
+            finishSegmentAndNextRegion();
+        };
+        const insistBtn = document.getElementById('insistServiceBtn');
+        if (insistBtn) insistBtn.onclick = function() {
+            const dynamicDiv = document.getElementById('dynamicButtons');
+            dynamicDiv.innerHTML = `<div style="margin-top: 6px;">💧 选择喝水方式：</div>`;
+            dynamicDiv.innerHTML += `<button class="btn sub-btn" id="moreWaterBtn">💧 多喝水</button>`;
+            dynamicDiv.innerHTML += `<button class="btn sub-btn" id="lessWaterVibeBtn">📳 少喝水+跳蛋</button>`;
+            attachInsistSubEvents();
+        };
+    }
+
+    function attachInsistSubEvents() {
+        const moreBtn = document.getElementById('moreWaterBtn');
+        const lessBtn = document.getElementById('lessWaterVibeBtn');
+        if (moreBtn) moreBtn.onclick = function() {
+            let dice = rollDice();
+            let drinkMl = [100,200,300,400,500,600][dice-1];
+            gameState.totalDrink += drinkMl;
+            logDice('多喝水', dice, `喝${drinkMl}ml`);
+            showMessage(`你喝了 ${drinkMl}ml，同学同意进入服务区`);
+            enterServiceDirectly();
+        };
+        if (lessBtn) lessBtn.onclick = function() {
+            let dice = rollDice();
+            let drinkMl = [50,100,150,200,250,300][dice-1];
+            gameState.totalDrink += drinkMl;
+            gameState.hasVibe = true;
+            logDice('少喝水+跳蛋', dice, `喝${drinkMl}ml, 激活跳蛋`);
+            showMessage(`你喝了 ${drinkMl}ml，并获得激活跳蛋，同学同意进入服务区`);
+            enterServiceDirectly();
+        };
+    }
+
+    function enterServiceDirectly() {
+        if (gameState.hasVibe) {
+            showMessage('📳 好了同学，你已经玩了好久跳蛋了，可以停下了');
+            gameState.hasVibe = false;
+            gameState.vibeLevel = '关';
+        }
+        if (gameState.handsBound || gameState.legsBound) {
+            showMessage('🪢 捆绑解开了');
+            gameState.handsBound = false;
+            gameState.legsBound = false;
+        }
+        gameState.hadUrineLastService = false;
+        gameState.state = 'inService';
+        document.getElementById('serviceActionPanel').style.display = 'block';
+        showMessage('🚏 已进入服务区，可放尿、免费购买道具');
+        render();
+    }
+
+    function finishSegmentAndNextRegion() {
+        document.getElementById('serviceActionPanel').style.display = 'none';
+        let drinkAmount = gameState.hadUrineLastService ? 300 : 200;
+        addDrink(drinkAmount);
+        showHydrationAlert(drinkAmount, gameState.hadUrineLastService);
+        gameState.hadUrineLastService = false;
+
+        gameState.region += 1;
+        if (gameState.region > gameState.totalRegions) {
+            gameState.state = 'finalDriveInit';
+            render();
+            return;
+        }
+        gameState.segmentBaseMinutes = 0;
+        gameState.segmentDrivenMinutes = 0;
+        gameState.segmentJamMinutes = 0;
+        gameState.segmentRandomAdjust = 0;
+        gameState.jamOccurredThisSegment = false;
+        gameState.state = 'preDrive';
+        render();
+    }
+
+    function renderServiceShop() {
+        if (gameState.state !== 'inService') return;
+        let container = document.getElementById('shopItemsContainer');
+        let itemsHtml = `
+            <span class="shop-item" data-id="pad" data-cost="200">🩸 姨妈巾【喝200ml】</span>
+            <span class="shop-item" data-id="smallBottle" data-cost="350">🧂 小瓶矿泉水【喝350ml】</span>
+            <span class="shop-item" data-id="largeBottle" data-cost="500">💧 大瓶矿泉水【喝500ml】</span>
+            <span class="shop-item" data-id="tissue" data-cost="100">🧻 三张纸巾【喝100ml】</span>
+            <span class="shop-item" data-id="jeans" data-cost="600">👖 牛仔裤【喝600ml】</span>
+            <span class="shop-item" data-id="vibeItem" data-cost="200">📳 350ml空瓶+跳蛋【喝200ml】</span>
+        `;
+        container.innerHTML = itemsHtml;
+        document.querySelectorAll('.shop-item').forEach(el => {
+            el.addEventListener('click', (e) => {
+                let id = el.dataset.id;
+                let cost = parseInt(el.dataset.cost);
+                buyItem(id, cost);
+            });
+        });
+
+        document.getElementById('confirmUrineBtn').onclick = function() {
+            let input = document.getElementById('urineAmountInput');
+            let ml = parseInt(input.value);
+            if (isNaN(ml) || ml < 0) { 
+                showMessage('请输入有效的放尿量'); 
+                return; 
+            }
+            recordUrination(ml, '服务区');
+            input.value = 0;
+        };
+    }
+
+    function bindEmergencyUrineEvents() {
+        const confirmBtn = document.getElementById('confirmEmergencyUrineBtn');
+        const cancelBtn = document.getElementById('cancelEmergencyUrineBtn');
+        const input = document.getElementById('emergencyUrineAmount');
+
+        confirmBtn.onclick = function() {
+            let ml = parseInt(input.value);
+            if (isNaN(ml) || ml < 0) ml = 0;
+            let source = window.__lastUsedBottle || '矿泉水';
+            recordUrination(ml, source);
+            document.getElementById('emergencyUrinePanel').style.display = 'none';
+            input.value = 0;
+        };
+
+        cancelBtn.onclick = function() {
+            showMessage('⏩ 跳过放尿记录');
+            document.getElementById('emergencyUrinePanel').style.display = 'none';
+            input.value = 0;
+        };
+    }
+
+    function bindFinalUrineEvent() {
+        const confirmBtn = document.getElementById('confirmFinalUrineBtn');
+        const input = document.getElementById('finalUrineAmount');
+
+        confirmBtn.onclick = function() {
+            let ml = parseInt(input.value);
+            if (isNaN(ml) || ml < 0) ml = 0;
+            recordUrination(ml, '游戏结束·回到宿舍');
+            showMessage('🎉 恭喜你！终于可以放心了！游戏结束。');
+            gameState.state = 'finish';
+            render();
+        };
+    }
+
+    function handleNextStep() {
+        if (gameState.state === 'preDrive') {
+            showMessage('请先点击「行驶时长」掷骰子');
+        }
+        else if (gameState.state === 'driving') {
+            if (gameState.hasVibe && !gameState.vibeRolledThisStep) {
+                showMessage('📳 必须先掷跳蛋骰子');
+                return;
+            }
+            if (gameState.jamCheckActive) {
+                showMessage('🚧 请先完成堵车判定');
+                return;
+            }
+            gameState.segmentDrivenMinutes += 5;
+            gameState.currentTimeMin += 5;
+            let totalNeeded = gameState.segmentBaseMinutes + gameState.segmentJamMinutes + gameState.segmentRandomAdjust;
+            if (totalNeeded < 0) totalNeeded = 0;
+            if (gameState.segmentDrivenMinutes >= totalNeeded && totalNeeded > 0) {
+                if (gameState.region === gameState.totalRegions) {
+                    gameState.state = 'finalDriveInit';
+                } else {
+                    gameState.state = 'serviceEnterJudge';
+                }
+            } else {
+                gameState.vibeRolledThisStep = false;
+                gameState.randomEventUsedThisStep = false;
+            }
+            render();
+        }
+        else if (gameState.state === 'inService') {
+            gameState.currentTimeMin += 10;  
+            finishSegmentAndNextRegion();
+            render();
+        }
+        else if (gameState.state === 'finalDriving') {
+            if (gameState.hasVibe && !gameState.vibeRolledThisStep) {
+                showMessage('📳 必须先掷跳蛋骰子');
+                return;
+            }
+            gameState.homeDriven += 5;
+            gameState.currentTimeMin += 5;
+            if (gameState.homeDriven >= gameState.homeDistance) {
+                gameState.state = 'finalArrived';
+            } else {
+                gameState.vibeRolledThisStep = false;
+                gameState.randomEventUsedThisStep = false;
+            }
+            render();
+        }
+        else if (gameState.state === 'finalWaiting') {
+            gameState.brotherShowerElapsed += 5;
+            gameState.currentTimeMin += 5;
+            if (gameState.brotherShowerElapsed >= gameState.brotherShowerTime) {
+                gameState.state = 'finalEnd';
+                showMessage('🎉 室友洗完澡了！你可以上厕所了！');
+            }
+            render();
+        }
+        else if (gameState.state === 'serviceEnterJudge') {
+            showMessage('请先决定是否进入服务区');
+        }
+        else {
+            showMessage('当前状态无法执行下一步');
+        }
+    }
+
+    window.onload = function() {
+        bindEmergencyUrineEvents();
+        bindFinalUrineEvent();
+        attachShameEvents();
+        initDrinkSelection();
+        document.getElementById('nextStepBtn').addEventListener('click', handleNextStep);
+        document.getElementById('orgasmBtn').addEventListener('click', addOrgasm);
+        document.getElementById('incontinenceBtn').addEventListener('click', addIncontinence);
+        gameState.state = 'initial';
+        render();
+
+        const stateLabel = document.createElement('span');
+        stateLabel.id = 'currentStateLabel';
+        stateLabel.style = 'font-weight: bold; background: #ffd4d9; padding: 6px 18px; border-radius: 30px; display: inline-block; margin-bottom: 8px;';
+        document.querySelector('.log-area').insertAdjacentElement('beforebegin', stateLabel);
+        render();
+    };
+</script>
+</body>
+</html>
