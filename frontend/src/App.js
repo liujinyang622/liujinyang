@@ -9,7 +9,7 @@ import GroupChat from './components/GroupChat';
 import Profile from './components/Profile';
 import Moments from './components/Moments';
 
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000';
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'https://liujinyang.onrender.com';
 
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
