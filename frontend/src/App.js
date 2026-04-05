@@ -8,6 +8,7 @@ import ChatWindow from './components/ChatWindow';
 import GroupChat from './components/GroupChat';
 import Profile from './components/Profile';
 import Moments from './components/Moments';
+import GroupChat from './components/GroupChat';
 
 const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000';
 
