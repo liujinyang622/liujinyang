@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://liujinyang-1.onrender.com'
+  baseURL: process.env.REACT_APP_API_URL || 'https://liujinyang-1.onrender.com/api'
 });
 
 export const setToken = (token) => {
