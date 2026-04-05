@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>文档浏览</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+</head>
+<body>
+  <h1>上传文档 (只有管理员)</h1>
+  <input type="file" id="fileInput" />
+  <button onclick="uploadFile()">上传</button>
+
+  <h1>文档列表</h1>
+  <ul id="fileList"></ul>
+
+  <script>
+    // 初始化 Firebase
+    const firebaseConfig = {
+      apiKey: "你的API_KEY",
+      authDomain: "你的项目.firebaseapp.com",
+      projectId: "你的项目ID",
+      storageBucket: "你的项目.appspot.com",
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const storage = firebase.storage();
+
+    // 上传文件
+    async function uploadFile() {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return;
+      const storageRef = storage.ref("docs/" + file.name);
+      await storageRef.put(file);
+      alert("上传成功");
+      loadFiles();
+    }
+
+    // 列出文件
+    async function loadFiles() {
+      const listRef = storage.ref("docs/");
+      const res = await listRef.listAll();
+      const list = document.getElementById("fileList");
+      list.innerHTML = "";
+      res.items.forEach(async (itemRef) => {
+        const url = await itemRef.getDownloadURL();
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${url}" target="_blank">${itemRef.name}</a>`;
+        list.appendChild(li);
+      });
+    }
+
+    loadFiles();
+  </script>
+</body>
+</html>
+
