@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <title>学生自助返校系统</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; padding:20px; max-width:800px; margin:auto; }
+    .card { border:1px solid #ddd; padding:16px; border-radius:8px; margin-top:16px; }
+    label { display:block; margin-top:8px; }
+    input, select { padding:8px; width:100%; box-sizing:border-box; margin-top:4px; }
+    button { margin-top:12px; padding:10px 16px; }
+    #resultCard img { max-width:100%; }
+  </style>
+</head>
+<body>
+  <h1>学生自助返校系统</h1>
+
+  <div class="card">
+    <label>姓名
+      <input id="name" type="text" placeholder="请输入姓名" />
+    </label>
+
+    <label>联系方式类型
+      <select id="contactType">
+        <option value="QQ">QQ</option>
+        <option value="微信">微信</option>
+        <option value="手机号">手机号</option>
+      </select>
+    </label>
+
+    <label>联系方式
+      <input id="contactValue" type="text" placeholder="请输入联系方式" />
+    </label>
+
+    <label>你的小学班主任
+      <input id="teacher" type="text" placeholder="请输入小学班主任姓名" />
+    </label>
+
+    <button id="generateBtn">生成小卡</button>
+  </div>
+
+  <div id="resultCard" class="card" style="display:none;">
+    <h3>生成的小卡</h3>
+    <div id="cardCanvasContainer"></div>
+    <p>
+      <button id="downloadBtn">保存到相册（下载图片）</button>
+    </p>
+    <p id="statusMsg" style="color:green;"></p>
+  </div>
+
+  <script src="lib/qrcode.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
