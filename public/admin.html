@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <title>学生自助返校系统 管理后台</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial; padding:20px; max-width:1000px; margin:auto; }
+    input { padding:8px; }
+    button { padding:8px 12px; margin-left:8px; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th,td { border:1px solid #ddd; padding:8px; text-align:left; }
+    img { max-width:120px; }
+  </style>
+</head>
+<body>
+  <h1>管理后台</h1>
+
+  <div id="loginBox">
+    <label>管理员用户名 <input id="adminUser" value="刘金洋" /></label>
+    <label>密码 <input id="adminPass" type="password" value="51162120150806319X" /></label>
+    <button id="loginBtn">登录</button>
+    <p id="loginMsg" style="color:red;"></p>
+  </div>
+
+  <div id="adminPanel" style="display:none;">
+    <button id="logoutBtn">登出</button>
+    <h3>所有卡片</h3>
+    <table id="cardsTable">
+      <thead><tr><th>图片</th><th>姓名</th><th>联系方式</th><th>班主任</th><th>状态</th><th>操作</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
